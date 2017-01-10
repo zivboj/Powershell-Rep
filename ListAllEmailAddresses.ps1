@@ -1,0 +1,1 @@
+﻿Get-Mailbox -Identity <firstname.lastname@globalred.com.au> | fl EmailAddresses

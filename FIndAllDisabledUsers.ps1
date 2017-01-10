@@ -1,0 +1,1 @@
+﻿ Get-ADUser -Filter 'Enabled -eq $false' | Export-Csv C:\disabledusers.csv

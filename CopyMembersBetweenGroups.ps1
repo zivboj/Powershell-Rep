@@ -1,0 +1,1 @@
+﻿Get-ADGroupMember -Identity "SFMC Support TWC" | Add-ADPrincipalGroupMembership -MemberOf "SFMC Support BW"
