@@ -1,2 +1,4 @@
-# Powershell-Rep
-Powershell scripts: O365 and local env
+# Powershell Scripts  
+Git full of powershell used for admin work with O365 and AD
+Wil be expanded as time goes on
+
