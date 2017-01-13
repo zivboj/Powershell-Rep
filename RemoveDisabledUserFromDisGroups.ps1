@@ -1,6 +1,6 @@
 Import-Module ActiveDirectory
 
-$searchOU = "OU=AU,DC=globalred,DC=com,DC=au"
+$searchOU = "OU=Example,DC=Example,DC=Example,DC=Example"
 
 Get-ADGroup -Filter 'GroupCategory -eq "Security" -or GroupCategory -eq "Distribution"' -SearchBase $searchOU | ForEach-Object{ $group = $_
 	Get-ADGroupMember -Identity $group -Recursive | %{Get-ADUser -Identity $_.distinguishedName -Properties Enabled | ?{$_.Enabled -eq $false}} | ForEach-Object{ $user = $_
