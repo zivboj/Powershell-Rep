@@ -1,3 +1,6 @@
+#Removes from disabled users All dist groups and sec groups they're memebers of
+#With Adjustment could be used for mailbox permissions.
+#
 Import-Module ActiveDirectory
 
 $searchOU = "OU=Example,DC=Example,DC=Example,DC=Example"
