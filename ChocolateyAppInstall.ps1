@@ -1,4 +1,4 @@
-##--Install Primary Software--##
+##Install Primary Software
 
 iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex
 
@@ -13,7 +13,7 @@ choco install slack -Y
 
 Start-Process "\\gr-file01\GLOBALFS\GlobalIT\04-ServiceDesk\Software Packages\openvpn-connect-2.0.18.202.msi"
 
-##--Remove Bloatware Windows Apps on Windows 8,8.1,10--##
+##Remove Bloatware Windows Apps on Windows 8,8.1,10
 
 $ExcludedApps = '.*photos.*|.*calculator.*|.*alarms.*|.*desktopapp*.|.*sticky*.|.*soundrecorder*.|.*zunevideo*.'
 
@@ -23,19 +23,4 @@ if ($Apps) {
 
     $Apps | Remove-AppxPackage
 
-}
-
-##--Remove Dell Bloatware--##
-
-$Bloatware = @("Dell Customer Connect", "Dell Data Services", "Dell Digital Delivery", "Dell Foundation Services", "Dell Help & Support", "Dell Support Assist", "Dell Update")
-
-foreach($Program in $Bloatware) {
-    
-    $app = Get-WmiObject -Class Win32_Product | Where-Object {
-        
-        $_.Name -match "$Program"
-
-    }
-
-    $app.Uninstall()
 }
