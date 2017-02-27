@@ -1,3 +1,5 @@
+##Run within Enter-PSSession on AD server
+
 echo "Enter username to disable:"
 $userInput = Read-Host
 
