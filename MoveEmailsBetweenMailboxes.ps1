@@ -1,0 +1,1 @@
+Search-Mailbox -Identity 'MailboxBeingMovedTo' -TargetMailbox 'MailboxMovedTo' -TargetFolder "Name Folder" -LogLevel Full 
