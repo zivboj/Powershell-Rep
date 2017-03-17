@@ -1,0 +1,1 @@
+Search-Mailbox -Identity "oldEmail" -TargetMailbox "newEmail" -TargetFOlder "Moved from Old Mailbox" -LogLevel Full -Verbose
