@@ -1,8 +1,2 @@
 ﻿
-$allusers = Get-DistributionGroupMember -Identity "Global Red Sydney" | ForEach-Object {Add-MailboxFolderPermission -identity "IT Leave Calendar" -user $_.Name -accessrights reviewer} 
-
-# echo $allusers.Name
-
-##echo $allusers
-
-#ForEach-Object {Add-MailboxFolderPermission -identity "IT Leave Calendar" -user $allusers.Name -accessrights reviewer}
+$allusers = Get-DistributionGroupMember -Identity "DistGroupName" | ForEach-Object {Add-MailboxFolderPermission -identity "CalendarRequiringAccess" -user $_.Name -accessrights reviewer} 
