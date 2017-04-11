@@ -1,8 +1,8 @@
-##Validation 
+##String Declarations 
 $letterValidation = '^[a-zA-Z]+$'
+$emailAddress= '@lifecycledigital.com'
 
-
-##Strings of user input User Input 
+##User input validation
 do 
 {
 $userFirstName = Read-Host -Prompt 'Input FirstName of New User' 
@@ -15,8 +15,7 @@ $userLastName = Read-Host -Prompt 'Input Lastname of New User'
 }
 Until($userlastName -match $letterValidation)
 
- 
-$userFirstLast = ($userFirstName + '.' + $userLastName)
+
 
 do
 {
@@ -30,20 +29,19 @@ $userDepartment = Read-Host -Prompt 'Input User Department i.e. Development, Mar
 }
 Until($userDepartment -match $letterValidation)
 
-do
-{
-$userManager = Read-Host -Prompt 'Input Users Manager e.g John Smith'
-}
-Until($userManager -match $letterValidation)
+
+$userManager = Read-Host -Prompt 'Input Users Manager e.g John.Smith'
 
 do
 {
-$userCountry = Read-Host -Prompt 'Input Users Country of work e.g Sydney, India, Singapore'
+$userCountry = Read-Host -Prompt 'Input Users Country of work e.g Australia, India, Singapore'
 }
 Until ($userCountry -match $letterValidation)
 
-$emailAddress= 'SpecificyWhichWeEmailToUse'
+
 $userFullName= ($userFirstName + ' ' + $userLastName)
+ 
+$userFirstLast = ($userFirstName + '.' + $userLastName)
 
 
 
@@ -55,9 +53,9 @@ New-ADUser -Name $userFullName -DisplayName $userFullName -GivenName $userFirstN
 
 switch ($userCountry)
 {
-"Australia" {Get-ADuser $userFirstLast | Move-ADObject -TargetPath "OU1"}
-"India" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OU2'}
-"Singapore" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OU3'}
+"Australia" {Get-ADuser $userFirstLast | Move-ADObject -TargetPath "OU=Users,OU=AU,OU=Staff,DC=lifecycledigital,DC=com"}
+"India" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OU=Users,OU=IN,OU=Staff,DC=lifecycledigital,DC=com'}
+"Singapore" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OU=Users,OU=SG,OU=Staff,DC=lifecycledigital,DC=com'}
 default {echo "no country provided"}
 
 } 
