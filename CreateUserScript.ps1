@@ -66,9 +66,9 @@ New-ADUser -Name $userFullName -UserPrincipalName $userFirstLast -DisplayName $u
 ##Based on country moves user to specific OU
 switch ($userCountry)
 {
-"Australia" {Get-ADuser $userFirstLast | Move-ADObject -TargetPath "OU=Users,OU=AU,OU=Staff,DC=lifecycledigital,DC=com"}
-"India" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OU=Users,OU=IN,OU=Staff,DC=lifecycledigital,DC=com'}
-"Singapore" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OU=Users,OU=SG,OU=Staff,DC=lifecycledigital,DC=com'}
+"Australia" {Get-ADuser $userFirstLast | Move-ADObject -TargetPath "OUPath"}
+"India" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OUPath'}
+"Singapore" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OUPath'}
 default {echo "no country provided"}
 
 } 
@@ -100,7 +100,7 @@ Start-Sleep -Seconds 300
 $userEmail = $userFirstLast + $emailAddress
 do
 {
-Set-MsolUserLicense -UserPrincipalName $userEmail -AddLicenses globalredpty:O365_BUSINESS_PREMIUM
+Set-MsolUserLicense -UserPrincipalName $userEmail -AddLicenses "LicenseName"
 Start-Sleep -Seconds 120
 $mailboxExists = Get-MsolUser -UserPrincipalName $userEmail
 } while ($mailboxExists.isLicense -eq $False)
