@@ -7,7 +7,7 @@
 
 ##String Declarations 
 $letterValidation = '^[a-zA-Z]+$'
-$emailAddress= '@lifecycledigital.com'
+$emailAddress= '@email.com'
 
 
 ##Import Modules for Script to Work
@@ -60,14 +60,14 @@ $userFirstLast = ($userFirstName + '.' + $userLastName)
 $userEmail = ($userFirstLast + $emailAddress)
 
 ##User creation script
-New-ADUser -Name $userFullName -UserPrincipalName $userEmail -DisplayName $userFullName -GivenName $userFirstName -Surname $userLastName -EmailAddress $userEmail -SamAccountName $userFirstLast -Department $userDepartment -Manager $userManager -Path 'OU=Staff,DC=lifecycledigital,DC=com'-OtherAttributes @{title=$userTitle; proxyAddresses="SMTP:" + ($userFirstLast + $emailAddress)}
+New-ADUser -Name $userFullName -UserPrincipalName $userEmail -DisplayName $userFullName -GivenName $userFirstName -Surname $userLastName -EmailAddress $userEmail -SamAccountName $userFirstLast -Department $userDepartment -Manager $userManager -Path 'OUPATH'-OtherAttributes @{title=$userTitle; proxyAddresses="SMTP:" + ($userFirstLast + $emailAddress)}
 
 ##Based on country moves user to specific OU
 switch ($userCountry)
 {
-"Australia" {Get-ADuser $userFirstLast | Move-ADObject -TargetPath "OU=Users,OU=AU,OU=Staff,DC=lifecycledigital,DC=com"}
-"India" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OU=Users,OU=IN,OU=Staff,DC=lifecycledigital,DC=com'}
-"Singapore" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OU=Users,OU=SG,OU=Staff,DC=lifecycledigital,DC=com'}
+"Australia" {Get-ADuser $userFirstLast | Move-ADObject -TargetPath "OUPATH"}
+"India" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OUPATH'}
+"Singapore" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OUPATH'}
 default {echo "no country provided"}
 
 } 
@@ -118,6 +118,6 @@ $mailboxExists = Get-MsolUser -UserPrincipalName $userEmail
 do{
 Sleep -Seconds 120
 Set-MsolUser -UserPrincipalName $userEmail -UsageLocation 'AU'
-Set-MsolUserLicense -UserPrincipalName $userEmail -AddLicenses globalredpty:O365_BUSINESS_PREMIUM 
+Set-MsolUserLicense -UserPrincipalName $userEmail -AddLicenses LicneseName 
 $mailboxExists = Get-MsolUser -UserPrincipalName $userEmail
 }while($mailboxExists -eq $null)
