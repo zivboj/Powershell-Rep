@@ -7,7 +7,7 @@
 
 ##String Declarations 
 $letterValidation = '^[a-zA-Z]+$'
-$emailAddress= '@emaildomain.com'
+$emailAddress= '@lifecycledigital.com'
 
 
 ##Import Modules for Script to Work
@@ -54,27 +54,25 @@ Until ($userCountry -match $letterValidation)
 
 $userPassword = Read-host -Prompt 'Input User Password' -AsSecureString
 
+##Post input Strings
 $userFullName= ($userFirstName + ' ' + $userLastName)
- 
 $userFirstLast = ($userFirstName + '.' + $userLastName)
-
-
+$userEmail = ($userFirstLast + $emailAddress)
 
 ##User creation script
-New-ADUser -Name $userFullName -UserPrincipalName $userFirstLast -DisplayName $userFullName -GivenName $userFirstName -Surname $userLastName -EmailAddress ($userFirstLast + $emailAddress) -SamAccountName $userFirstLast -Department $userDepartment -Manager $userManager -Path 'OU=Staff,DC=lifecycledigital,DC=com'-OtherAttributes @{title=$userTitle; proxyAddresses="SMTP:" + ($userFirstLast + $emailAddress)}
+New-ADUser -Name $userFullName -UserPrincipalName $userEmail -DisplayName $userFullName -GivenName $userFirstName -Surname $userLastName -EmailAddress $userEmail -SamAccountName $userFirstLast -Department $userDepartment -Manager $userManager -Path 'OU=Staff,DC=lifecycledigital,DC=com'-OtherAttributes @{title=$userTitle; proxyAddresses="SMTP:" + ($userFirstLast + $emailAddress)}
 
 ##Based on country moves user to specific OU
 switch ($userCountry)
 {
-"Australia" {Get-ADuser $userFirstLast | Move-ADObject -TargetPath "OUPath"}
-"India" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OUPath'}
-"Singapore" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OUPath'}
+"Australia" {Get-ADuser $userFirstLast | Move-ADObject -TargetPath "OU=Users,OU=AU,OU=Staff,DC=lifecycledigital,DC=com"}
+"India" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OU=Users,OU=IN,OU=Staff,DC=lifecycledigital,DC=com'}
+"Singapore" {Get-ADUser $userFirstLast | Move-ADObject -TargetPath 'OU=Users,OU=SG,OU=Staff,DC=lifecycledigital,DC=com'}
 default {echo "no country provided"}
 
 } 
 
 ##Based on user role title add user to dis/sec groups
-##More to be added as per Marketing If Statement
 if(($userTitle -eq 'Developer'))
 {
 Add-ADGroupMember -Identity 'Devalerts' -Members $userFirstLast
@@ -90,17 +88,36 @@ Add-ADGroupMember -Identity 'Group2' -Members $userFirstLast
 Add-ADGroupMember -Identity 'Group3' -Members $userFirstLast
 }
 
-#Starts Sync to O365, Enable Account, Reset Password
+
+if(($userTitle -eq 'Sales'))
+{
+Add-ADGroupMember -Identity 'Group1' -Members $userFirstLast
+Add-ADGroupMember -Identity 'Group2' -Members $userFirstLast
+Add-ADGroupMember -Identity 'Group3' -Members $userFirstLast
+}
+
+if(($userTitle -eq 'Finance'))
+{
+Add-ADGroupMember -Identity 'Group1' -Members $userFirstLast
+Add-ADGroupMember -Identity 'Group2' -Members $userFirstLast
+Add-ADGroupMember -Identity 'Group3' -Members $userFirstLast
+}
+
+
+##Starts Sync to O365, Enable Account, Reset Password
 Get-ADUser -Identity $userFirstLast | Set-ADAccountPassword -NewPassword $userPassword -Reset             
 Enable-ADAccount -Identity $userFirstLast
 Start-ADSyncSyncCycle -PolicyType Delta -Verbose
 
-Start-Sleep -Seconds 300
-#Add Office365 Licnese Still in testing 
-$userEmail = $userFirstLast + $emailAddress
-do
-{
-Set-MsolUserLicense -UserPrincipalName $userEmail -AddLicenses "LicenseName"
-Start-Sleep -Seconds 120
+Start-Sleep -Seconds 480
+
+
 $mailboxExists = Get-MsolUser -UserPrincipalName $userEmail
-} while ($mailboxExists.isLicense -eq $False)
+
+##Set User Office License to Australia and provide license
+do{
+Sleep -Seconds 120
+Set-MsolUser -UserPrincipalName $userEmail -UsageLocation 'AU'
+Set-MsolUserLicense -UserPrincipalName $userEmail -AddLicenses globalredpty:O365_BUSINESS_PREMIUM 
+$mailboxExists = Get-MsolUser -UserPrincipalName $userEmail
+}while($mailboxExists -eq $null)
