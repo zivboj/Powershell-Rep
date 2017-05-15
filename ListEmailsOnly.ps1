@@ -1,0 +1,1 @@
+get-aduser -Filter * -Properties Mail | Select-Object -ExpandProperty mail > 'C:\Desired\File\Path\'
