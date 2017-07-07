@@ -1,3 +1,5 @@
+### Run in same directory as location of servers.txt
+### 
 
 $ComputerName = Get-Content ".\servers.txt"
 $Cred = Get-Credential
