@@ -1,1 +1,1 @@
-Get-MessageTraceDetail -MessageTraceId [Message-traceid] -recipentAddress [emailofpersonemailsentto] | Select messageID, date, event, action, data | Out-GridView
+Get-MessageTraceDetail -MessageTraceId [Message-traceid] -recipentAddress [emailofpersonemailsentto] | Select-Object messageID, date, event, action, data | Out-GridView

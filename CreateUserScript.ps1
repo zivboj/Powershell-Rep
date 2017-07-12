@@ -60,7 +60,7 @@ $userFirstLast = ($userFirstName + '.' + $userLastName)
 $userEmail = ($userFirstLast + $emailAddress)
 
 ##User creation script
-New-ADUser -Name $userFullName -UserPrincipalName $userEmail -DisplayName $userFullName -GivenName $userFirstName -Surname $userLastName -EmailAddress $userEmail -SamAccountName $userFirstLast -Department $userDepartment -Manager $userManager -Path 'OUPATH'-OtherAttributes @{title=$userTitle; proxyAddresses="SMTP:" + ($userFirstLast + $emailAddress)}
+New-ADUser -Name $userFullName -UserPrincipalName $userEmail -DisplayName $userFullName -GivenName $userFirstName -Surname $userLastName -EmailAddress $userEmail -SamAccountName $userFirstLast -Department $userDepartment -Manager $userManager -Path 'OUPATH'-OtherAttributes @{title=$userTitle; proxyAddresses="SMTP:" + ($userFirstLast + $emailAddress)} -Server coredc004
 
 ##Based on country moves user to specific OU
 switch ($userCountry)

@@ -11,4 +11,3 @@ foreach ($user in $users)
  }
 
  }
-
