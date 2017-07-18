@@ -1,5 +1,7 @@
-﻿$OutputFile = "$($env:TEMP)\O365LicensedADDisabledUsers.csv"
+﻿
+$OutputFile = "$($env:TEMP)\O365LicensedADDisabledUsers.csv"
 $T1 = @()
+Connect-MsolService
 $O365Users = Get-MsolUser -All
 ForEach ($O365User in $O365Users)
 {

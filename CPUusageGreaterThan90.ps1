@@ -1,6 +1,6 @@
 ## AtThisMoment the $adminPassword and $adminCreds are used to specifically to bypass O365 Login
 ## Ideally having a local SMTP server or one that does not need authentication would simplify the script
-
+echo kek
 $cpuCount = 0
 $adminPassword = ConvertTo-SecureString "PassWord" -AsPlainText -Force
 $adminCreds = New-Object System.Management.Automation.PSCredential("EmailUserName", $adminPassword)
