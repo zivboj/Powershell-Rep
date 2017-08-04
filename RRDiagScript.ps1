@@ -11,21 +11,21 @@ if((get-service VRServerUtilities).Status -eq "Running")
 else
 { $VRServerMessage = 'VRServerUtilties has stopped' }
 
-$VRServerMessage  >> C:\VR_Diag.txt
+$VRServerMessage  >> C:\Temp\VR_Diag.txt
 
 if((get-service VRPOSUtilities).Status -eq "Running")
 { $VRPOSMessage = 'VRPOSUtilties is running' }
 else
 { $VRPOSMessage = 'VRPOSUtilties has stopped' }
 
-$VRPOSMessage  >> C:\VR_Diag.txt
+$VRPOSMessage  >> C:\Temp\VR_Diag.txt
 
 #############################################################
 #Get Current Java Version
 
 $JavaVer = dir "HKLM:\SOFTWARE\JavaSoft\Java Runtime Environment"  | select -expa pschildname -Last 1
 
-$JavaVer >> C:\VR_Diag.txt
+$JavaVer >> C:\Temp\VR_Diag.txt
 
 #############################################################
 #Check if Port 443 is accessible
@@ -41,12 +41,12 @@ $PortTest = New-Object Net.Sockets.TcpClient "twc.webservices.visibleresults.net
        $Port443MSG = "Unable to contact Port 443"
     }
 
-$Port443MSG >> C:\VR_Diag.txt
+$Port443MSG >> C:\Temp\VR_Diag.txt
 
 #############################################################
 # Check if firewall is on
 
-Get-NetFirewallProfile >> C:\VR_Diag.txt
+Get-NetFirewallProfile >> C:\Temp\VR_Diag.txt
 
 
 #############################################################
@@ -63,7 +63,7 @@ else
     $JavaFireWallMSG = "Javaw.exe is not allowed through firewall"
 }
 
-$JavaFirewallMSG >> C:\VR_Diag.txt
+$JavaFirewallMSG >> C:\Temp\VR_Diag.txt
 
 #############################################################
 #Search Posutlitiles log for failed messages
@@ -72,12 +72,12 @@ $POSWrapper = Select-String -Pattern "Fail" -Path 'C:\VisibleResults\LoyaltyLogi
 
 if($POSWrapper.Pattern -eq "Fail")
 {
-    $POSWrapper >> C:\SearchFailPOSLogs.txt
+    $POSWrapper >> C:\Temp\SearchFailPOSLogs.txt
 }
 else
 {
     $POSWrapperMSG = "No Fail messages found in POS log"
-    $POsWrapperMSG >> C:\VR_Diag.txt
+    $POsWrapperMSG >> C:\Temp\VR_Diag.txt
 }
 
 #############################################################
@@ -87,10 +87,10 @@ $ServerWrapper = Select-String -Pattern "Fail" -Path 'C:\VisibleResults\LoyaltyL
 
 if($ServerWrapper.Pattern -eq "Fail")
 {
-    $ServerWrapper >> C:\SearchFailServerLogs.txt
+    $ServerWrapper >> C:\Temp\SearchFailServerLogs.txt
 }
 else
 {
     $ServerWrapperMSG = "No Fail messages found in Server logs"
-    $ServerWrapperMSG >> C:\VR_Diag.txt
+    $ServerWrapperMSG >> C:\Temp\VR_Diag.txt
 }
