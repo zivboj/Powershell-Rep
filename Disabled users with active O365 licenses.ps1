@@ -1,5 +1,5 @@
 ﻿
-$OutputFile = "$($env:TEMP)\O365LicensedADDisabledUsers.csv"
+$OutputFile = "C:\temp\O365LicensedADDisabledUsers.csv"
 $T1 = @()
 Connect-MsolService
 $O365Users = Get-MsolUser -All
