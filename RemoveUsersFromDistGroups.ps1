@@ -1,12 +1,12 @@
 ﻿#Removes all dist groups from users in Ou of choice
 
-$users = Get-ADUser -Filter * -Properties * -SearchBase "OU=_TerminatedUsers,OU=People,DC=hfs,DC=local"
+$users = Get-ADUser -Filter * -Properties * -SearchBase "OU of Choice"
 
 
 Foreach ($user in $users)
 {
 
-$groups = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName #| Select-String -Pattern ($groups.Name -notmatch "Domain Users") 
+$groups = Get-ADPrincipalGroupMembership -Identity $user.SamAccountName 
 
     if ($groups -contains "Domain Users")
     {
