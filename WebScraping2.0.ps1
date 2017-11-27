@@ -1,20 +1,36 @@
 #$gcreds = Get-Credential
 #$uri = 'https://btcmarkets.net/'
-$coinbaseInfo = Invoke-WebRequest -Uri  https://coinmarketcap.com/currencies/bitcoin-cash/ -UseBasicParsing
+add-type @"
+    using System.Net;
+    using System.Security.Cryptography.X509Certificates;
+    public class TrustAllCertsPolicy : ICertificatePolicy {
+        public bool CheckValidationResult(
+            ServicePoint srvPoint, X509Certificate certificate,
+            WebRequest request, int certificateProblem) {
+            return true;
+        }
+    }
+"@
+[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+
+$coins = 'neo', 'power-ledger'
+
+foreach($coin in $coins)
+{
+$coinbaseInfo = Invoke-WebRequest -Uri ("https://coinmarketcap.com/currencies/" + $coin + "/") -UseBasicParsing
 $coinbaseInfo.Content | Out-File tester.txt
-$bitcoinCash = Get-Content .\tester.txt | Select-String -Pattern '<span class="text-large" id="quote_price">' | out-string
+$coinValue = Get-Content .\tester.txt | Select-String -Pattern '<span class="text-large" id="quote_price">' | out-string
 
 
-$start= $bitcoinCash.IndexOf(">$") + 1
-$end = $bitcoinCash.IndexOf("</", $start)
+$start= $coinValue.IndexOf(">$") + 1
+$end = $coinValue.IndexOf("</", $start)
 $length = $end - $start
 
-$result = $bitcoinCash.substring($start, $length)
+$result = $coinValue.substring($start, $length)
 
-$bitcoinCashPrice = $result.Trim('$') | out-string
+$coinValuePrice = $result.Trim('$') | Out-String
 
-$bitcoinCashPrice
-
-
-
-#Send-MailMessage
+$coin
+$coinValuePrice
+}
+#Send-MailMessage6
