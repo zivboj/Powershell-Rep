@@ -15,7 +15,7 @@ $localUsers = Get-WmiObject -Class win32_useraccount -ComputerName $Computer -Fi
             }
 
     }
-    elseif ($localUsers -like '_GFSGuest') 
+    elseif ($localUsers -like 'OtherUser') 
     {
        {
         if(!(Get-HotFix -Id KB974332 -ComputerName $ComputerName -Credential $Cred2 ))

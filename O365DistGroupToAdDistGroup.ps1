@@ -7,14 +7,14 @@
 #.\ConnectToO365.ps1
 
 #Removing Identity gets all Distribution Groups
-$O365DistGroups = Get-DistributionGroup -Identity "IT-AppReleases"
+$O365DistGroups = Get-DistributionGroup -Identity "GroupOfChoice"
 
 #Main For each loop that creates groups
 foreach ($O365Group in $O365DistGroups)
 {
-$0365GroupSamAcc = $O365Group.PrimarySmtpAddress -replace '@greenstone.com.au'
+$0365GroupSamAcc = $O365Group.PrimarySmtpAddress -replace '@domain.com.au'
 
-New-ADGroup $O365Group.DisplayName -SamAccountName $O365GroupSamAcc -Path "OU=Office365,OU=GlobalGroups,OU=Departments,OU=People,DC=hfs,DC=local" -GroupScope Universal -GroupCategory Distribution -DisplayName $O365Group.DisplayName -OtherAttributes @{'mail'=$O365Group.PrimarySmtpAddress}
+New-ADGroup $O365Group.DisplayName -SamAccountName $O365GroupSamAcc -Path "OUOfChoice" -GroupScope Universal -GroupCategory Distribution -DisplayName $O365Group.DisplayName -OtherAttributes @{'mail'=$O365Group.PrimarySmtpAddress}
 
 $O365GroupMembers = Get-DistributionGroupMember -Identity $O365Group.Name 
 

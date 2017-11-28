@@ -1,4 +1,4 @@
-$Deparmentusers = Get-ADUser -Filter {(Enabled -eq "True")} -SearchBase "OU=Departments,OU=People,DC=hfs,DC=local" -Properties lastlogondate | ?{($_.distinguishedname -notlike '*ServiceAcc*') -or ($_.name -notlike "*svc*")}| Select-Object -Property Name, Enabled, lastlogondate | select-string "^(?!.*train)" | select-string "^(?!.*yes)"
+$Deparmentusers = Get-ADUser -Filter {(Enabled -eq "True")} -SearchBase "OU OF CHOICE" -Properties lastlogondate | ?{($_.distinguishedname -notlike '*ServiceAcc*') -or ($_.name -notlike "*svc*")}| Select-Object -Property Name, Enabled, lastlogondate | select-string "^(?!.*train)" | select-string "^(?!.*yes)"
 $CutOffDate = (Get-Date).adddays(-30)
 
 

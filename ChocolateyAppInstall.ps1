@@ -11,7 +11,7 @@ choco install 7zip -Y
 choco install teamviewer -Y
 choco install slack -Y
 
-Start-Process "\\gr-file01\GLOBALFS\GlobalIT\04-ServiceDesk\Software Packages\openvpn-connect-2.0.18.202.msi"
+#install package
 
 ##Remove Bloatware Windows Apps on Windows 8,8.1,10
 

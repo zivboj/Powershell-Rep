@@ -4,5 +4,5 @@ $users = Get-content -Path C:\Temp\Users.txt
 
 foreach($user in $users)
 {
-    Add-DistributionGroupMember -Identity "Guardian Guaranteed Funeral Project" -Member $users
+    Add-DistributionGroupMember -Identity "DistGroupName" -Member $users
 }
