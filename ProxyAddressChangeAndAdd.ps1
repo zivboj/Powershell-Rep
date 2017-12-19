@@ -1,4 +1,4 @@
-﻿$newproxy = "@EmailAddress"
+﻿$newproxy = "@domain.com.au"
 $userou = "Specific OU with Users"
 $users = Get-ADUser -Filter * -SearchBase $userou -Properties SamAccountName, ProxyAddresses 
 
