@@ -1,4 +1,4 @@
-$adGroupUsers = Get-ADGroupMember -Identity "O365 Sync" | Select -Property samaccountname 
+$adGroupUsers = Get-ADGroupMember -Identity "GROUPNAME" | Select -Property samaccountname 
 $table = @()
 foreach($user in $adGroupUsers)
 {
