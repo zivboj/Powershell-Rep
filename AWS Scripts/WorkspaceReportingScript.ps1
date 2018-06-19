@@ -25,7 +25,7 @@ foreach($workspace in $workspaces)
 
 {
 
-    if($workspace.BundleId -like "wsb-c1pmc8106")
+    if($workspace.BundleId -like "workspaceBundle")
     {
   $timeTable += (Get-WKSWorkspacesConnectionStatus -WorkspaceId $workspace.WorkspaceId )
     
